@@ -17,7 +17,7 @@ function Navbar() {
       </Link>
 
       <div className="flex items-center gap-6 text-sm">
-        <Link to="/" className="text-gray-400 hover:text-white transition">Home</Link>
+        <Link to="/test" className="text-gray-400 hover:text-white transition">Test</Link>
         <Link to="/leaderboard" className="text-gray-400 hover:text-white transition">Leaderboard</Link>
 
         {user ? (
@@ -36,7 +36,7 @@ function Navbar() {
           <>
             <Link to="/login" className="text-gray-400 hover:text-white transition">Login</Link>
             <Link
-              to="/signup"
+              to="/register"
               className="bg-yellow-400 text-gray-950 font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition"
             >
               Sign Up
