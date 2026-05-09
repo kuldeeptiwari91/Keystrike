@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
+import Leaderboard from "./pages/Leaderboard"
 
 function App() {
   const { user } = useAuth()
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
       </div>
     </BrowserRouter>
