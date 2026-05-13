@@ -13,11 +13,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-950 text-white">
+      <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white transition-colors duration-300">
         <Navbar />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/test" element={<Home />} /> 
+          <Route path="/test" element={<Home />} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
           <Route path="/dashboard" element={<Dashboard />} />
