@@ -25,38 +25,38 @@ function Dashboard() {
   const avgAccuracy = results.length ? Math.round(results.reduce((a, b) => a + b.accuracy, 0) / results.length) : 0
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <h2 className="text-2xl font-bold mb-8">
+    <div className="max-w-3xl mx-auto px-6 py-12 transition-colors duration-300">
+      <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
         {user?.username}'s Dashboard
       </h2>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-3 gap-4 mb-10">
-        <div className="bg-gray-900 rounded-xl p-6 text-center">
-          <div className="text-4xl font-mono text-yellow-400">{bestWpm}</div>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
+          <div className="text-4xl font-mono text-yellow-500 dark:text-yellow-400">{bestWpm}</div>
           <div className="text-sm text-gray-500 mt-2">Best WPM</div>
         </div>
-        <div className="bg-gray-900 rounded-xl p-6 text-center">
-          <div className="text-4xl font-mono text-blue-400">{avgWpm}</div>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
+          <div className="text-4xl font-mono text-blue-500 dark:text-blue-400">{avgWpm}</div>
           <div className="text-sm text-gray-500 mt-2">Avg WPM</div>
         </div>
-        <div className="bg-gray-900 rounded-xl p-6 text-center">
-          <div className="text-4xl font-mono text-green-400">{avgAccuracy}%</div>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
+          <div className="text-4xl font-mono text-green-500 dark:text-green-400">{avgAccuracy}%</div>
           <div className="text-sm text-gray-500 mt-2">Avg Accuracy</div>
         </div>
       </div>
 
       {/* Results Table */}
-      <h3 className="text-lg font-semibold mb-4 text-gray-300">Recent Tests</h3>
+      <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Recent Tests</h3>
       {loading ? (
         <div className="text-gray-500">Loading...</div>
       ) : results.length === 0 ? (
         <div className="text-gray-500">No tests yet. Go take a test!</div>
       ) : (
-        <div className="bg-gray-900 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm dark:shadow-none">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-800">
+              <tr className="text-gray-500 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
                 <th className="text-left px-6 py-3">#</th>
                 <th className="text-left px-6 py-3">WPM</th>
                 <th className="text-left px-6 py-3">Accuracy</th>
@@ -66,11 +66,14 @@ function Dashboard() {
             </thead>
             <tbody>
               {results.map((result, index) => (
-                <tr key={result._id} className="border-b border-gray-800 hover:bg-gray-800 transition">
+                <tr
+                  key={result._id}
+                  className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                >
                   <td className="px-6 py-4 text-gray-500">{index + 1}</td>
-                  <td className="px-6 py-4 text-yellow-400 font-mono">{result.wpm}</td>
-                  <td className="px-6 py-4 text-green-400 font-mono">{result.accuracy}%</td>
-                  <td className="px-6 py-4 text-blue-400 font-mono">{result.timeTaken}s</td>
+                  <td className="px-6 py-4 text-yellow-500 dark:text-yellow-400 font-mono">{result.wpm}</td>
+                  <td className="px-6 py-4 text-green-500 dark:text-green-400 font-mono">{result.accuracy}%</td>
+                  <td className="px-6 py-4 text-blue-500 dark:text-blue-400 font-mono">{result.timeTaken}s</td>
                   <td className="px-6 py-4 text-gray-500">
                     {new Date(result.createdAt).toLocaleDateString("en-IN")}
                   </td>
