@@ -16,10 +16,10 @@ function App() {
       <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white transition-colors duration-300">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={!user ? <Landing /> : <Navigate to="/test" />} />
           <Route path="/test" element={<Home />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-          <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/test" />} />
+          <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/test" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
