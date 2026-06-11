@@ -1,3 +1,67 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Monkeytype-inspired color palette ── */
+/* these are the default (light mode) colors used everywhere in the app */
+:root {
+  --color-bg:     #e8e0d5;
+  --color-sub:    #a09588;
+  --color-text:   #302a2a;
+  --color-main:   #e2b714;
+  --color-error:  #ca4754;
+  --color-card:   #ddd5c9;
+  --color-input:  #cfc6b8;
+  --color-border: rgba(160, 149, 136, 0.4);
+}
+
+/* when .dark class is on the html element, these colors override the ones above */
+.dark {
+  --color-bg:     #323437;
+  --color-sub:    #646669;
+  --color-text:   #d1d0c5;
+  --color-main:   #e2b714;
+  --color-error:  #ca4754;
+  --color-card:   #2c2e31;
+  --color-input:  #25272a;
+  --color-border: rgba(100, 102, 105, 0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+  /* smoothly fade the background and text color when the user switches themes */
+  transition: background-color 0.15s ease, color 0.15s ease;
+  margin: 0;
+}
+
+/* fade-in animation for the results screen */
+@keyframes results-fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.results-fade {
+  animation: results-fade-in 0.4s ease-out;
+}
+
+/* Blinking caret for the typing test */
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.caret-blink {
+  animation: blink-caret 1.06s ease-in-out infinite;
+}
+
+/* Hide scrollbar in the words container */
+.words-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+.words-container::-webkit-scrollbar { display: none; }

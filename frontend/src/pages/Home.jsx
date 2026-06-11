@@ -1,11 +1,7 @@
 import TypingBox from "../components/TypingBox"
 
 function Home() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <TypingBox />
-    </div>
-  )
+  return <TypingBox />
 }
 
 export default Home

@@ -6,75 +6,74 @@ import { useAuth } from "../context/AuthContext"
 function Dashboard() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user } = useAuth()
-  const navigate = useNavigate()
+  const { user }              = useAuth()
+  const navigate              = useNavigate()
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login")
-      return
-    }
+    if (!user) { navigate("/login"); return }
     getMyResults()
-      .then((res) => setResults(res.data))
-      .catch((err) => console.log(err))
+      .then(res => setResults(res.data))
+      .catch(err => console.log(err))
       .finally(() => setLoading(false))
   }, [])
 
-  const bestWpm = results.length ? Math.max(...results.map((r) => r.wpm)) : 0
-  const avgWpm = results.length ? Math.round(results.reduce((a, b) => a + b.wpm, 0) / results.length) : 0
+  const bestWpm     = results.length ? Math.max(...results.map(r => r.wpm)) : 0
+  const avgWpm      = results.length ? Math.round(results.reduce((a, b) => a + b.wpm, 0) / results.length) : 0
   const avgAccuracy = results.length ? Math.round(results.reduce((a, b) => a + b.accuracy, 0) / results.length) : 0
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12 transition-colors duration-300">
-      <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
-        {user?.username}'s Dashboard
+    <div style={{ maxWidth: 760, margin: "0 auto", padding: "48px 24px" }}>
+
+      <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 32, color: "var(--color-text)" }}>
+        {user?.username}'s dashboard
       </h2>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-4 mb-10">
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
-          <div className="text-4xl font-mono text-yellow-500 dark:text-yellow-400">{bestWpm}</div>
-          <div className="text-sm text-gray-500 mt-2">Best WPM</div>
-        </div>
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
-          <div className="text-4xl font-mono text-blue-500 dark:text-blue-400">{avgWpm}</div>
-          <div className="text-sm text-gray-500 mt-2">Avg WPM</div>
-        </div>
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center shadow-sm dark:shadow-none">
-          <div className="text-4xl font-mono text-green-500 dark:text-green-400">{avgAccuracy}%</div>
-          <div className="text-sm text-gray-500 mt-2">Avg Accuracy</div>
-        </div>
+      {/* Summary stat cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginBottom: 40 }}>
+        <StatCard label="best wpm"     value={bestWpm} />
+        <StatCard label="avg wpm"      value={avgWpm} />
+        <StatCard label="avg accuracy" value={`${avgAccuracy}%`} />
       </div>
 
-      {/* Results Table */}
-      <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Recent Tests</h3>
+      {/* Recent tests table */}
+      <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, color: "var(--color-sub)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        recent tests
+      </h3>
+
       {loading ? (
-        <div className="text-gray-500">Loading...</div>
+        <p style={{ color: "var(--color-sub)" }}>loading...</p>
       ) : results.length === 0 ? (
-        <div className="text-gray-500">No tests yet. Go take a test!</div>
+        <p style={{ color: "var(--color-sub)" }}>no tests yet — go take one!</p>
       ) : (
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm dark:shadow-none">
-          <table className="w-full text-sm">
+        <div style={{
+          backgroundColor: "var(--color-card)",
+          border:          "1px solid var(--color-border)",
+          borderRadius:    12,
+          overflow:        "hidden",
+        }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
             <thead>
-              <tr className="text-gray-500 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
-                <th className="text-left px-6 py-3">#</th>
-                <th className="text-left px-6 py-3">WPM</th>
-                <th className="text-left px-6 py-3">Accuracy</th>
-                <th className="text-left px-6 py-3">Time</th>
-                <th className="text-left px-6 py-3">Date</th>
+              <tr style={{ borderBottom: "1px solid var(--color-border)" }}>
+                {["#", "wpm", "accuracy", "time", "date"].map(col => (
+                  <th key={col} style={{ textAlign: "left", padding: "12px 20px", fontWeight: 500, color: "var(--color-sub)" }}>
+                    {col}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {results.map((result, index) => (
+              {results.map((result, i) => (
                 <tr
                   key={result._id}
-                  className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                  style={{ borderBottom: i < results.length - 1 ? "1px solid var(--color-border)" : "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = "rgba(100,102,105,0.08)" }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent" }}
                 >
-                  <td className="px-6 py-4 text-gray-500">{index + 1}</td>
-                  <td className="px-6 py-4 text-yellow-500 dark:text-yellow-400 font-mono">{result.wpm}</td>
-                  <td className="px-6 py-4 text-green-500 dark:text-green-400 font-mono">{result.accuracy}%</td>
-                  <td className="px-6 py-4 text-blue-500 dark:text-blue-400 font-mono">{result.timeTaken}s</td>
-                  <td className="px-6 py-4 text-gray-500">
+                  <td style={{ padding: "14px 20px", color: "var(--color-sub)" }}>{i + 1}</td>
+                  <td style={{ padding: "14px 20px", color: "var(--color-main)", fontWeight: 600 }}>{result.wpm}</td>
+                  <td style={{ padding: "14px 20px", color: "var(--color-text)" }}>{result.accuracy}%</td>
+                  <td style={{ padding: "14px 20px", color: "var(--color-sub)" }}>{result.timeTaken}s</td>
+                  <td style={{ padding: "14px 20px", color: "var(--color-sub)" }}>
                     {new Date(result.createdAt).toLocaleDateString("en-IN")}
                   </td>
                 </tr>
@@ -83,6 +82,25 @@ function Dashboard() {
           </table>
         </div>
       )}
+    </div>
+  )
+}
+
+function StatCard({ label, value }) {
+  return (
+    <div style={{
+      backgroundColor: "var(--color-card)",
+      border:          "1px solid var(--color-border)",
+      borderRadius:    12,
+      padding:         "24px 16px",
+      textAlign:       "center",
+    }}>
+      <div style={{ fontSize: 40, fontWeight: 700, color: "var(--color-main)", marginBottom: 8 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: 12, color: "var(--color-sub)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        {label}
+      </div>
     </div>
   )
 }

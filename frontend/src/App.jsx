@@ -9,18 +9,21 @@ import Leaderboard from "./pages/Leaderboard"
 import Landing from "./pages/Landing"
 
 function App() {
+  // grab the logged-in user so we know who is currently signed in
   const { user } = useAuth()
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white transition-colors duration-300">
+      <div className="min-h-screen" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
         <Navbar />
         <Routes>
-          <Route path="/" element={!user ? <Landing /> : <Navigate to="/test" />} />
-          <Route path="/test" element={<Home />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/test" />} />
-          <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/test" />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* if logged in, skip the landing page and send them straight to the test */}
+          <Route path="/"           element={!user ? <Landing />  : <Navigate to="/test" />} />
+          <Route path="/test"       element={<Home />} />
+          {/* if user is already logged in, don't let them visit login or signup again */}
+          <Route path="/login"      element={!user ? <Login />    : <Navigate to="/test" />} />
+          <Route path="/signup"     element={!user ? <Signup />   : <Navigate to="/test" />} />
+          <Route path="/dashboard"  element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
       </div>
