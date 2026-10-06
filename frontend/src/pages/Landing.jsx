@@ -1,9 +1,16 @@
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
+import { pingBackend } from "../services/api"
 
 function Landing() {
   const navigate = useNavigate()
   const { user } = useAuth()
+
+  // Wake up the backend on Render as soon as the user opens the landing page
+  useEffect(() => {
+    pingBackend()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-950 dark:text-white transition-colors duration-300">

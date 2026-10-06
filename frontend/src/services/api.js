@@ -16,3 +16,6 @@ export const login = (data) => API.post("/auth/login", data)
 export const saveResult = (data) => API.post("/results", data)
 export const getMyResults = () => API.get("/results/me")
 export const getLeaderboard = () => API.get("/results/leaderboard")
+
+// Wake up Render backend on page load so user doesn't wait when they log in / save test results
+export const pingBackend = () => axios.get("https://keystrike-backend.onrender.com/").catch(() => {})
